@@ -28,28 +28,21 @@ jobs:
         pip install -r requirements.txt        
     
     - name: Test with pytest
-      run: | 
-        pytest test_calculadora.py
-      
+      run: |
+        python -m pytest -v --cov=. --cov-report=html --html=report.html
 
     - name: Build Clase
       run: |
-        mkdir build
+        mkdir -p build
         cp calculadora.py build/
 
-    - name: Build Reporte
+    - name: Build Reporte COV
       run: |
         cp -r htmlcov build/
-    
-    - name: Build Reporte
-      run: |
-        cp -r assets build/
-        cp -r report.html build/
 
-    - name: Build Artefacto ZIP
-      uses: actions/upload-artifact@v4
-      with:
-        name: Artefacto-Probado
-        path: build/
+    - name: Build Reporte HTML
+      run: |
+        cp -r assets build/ || true
+        cp -r report.html build/
 
       
